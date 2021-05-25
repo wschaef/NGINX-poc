@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  reverse:
+    container_name: reverse
+    hostname: my-host
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf:/etc/nginx
+      - ./nginx/certs:/etc/ssl/private
+      # - ./app:/usr/local/nginx/html
+    links: 
+      - app1
+
+  app1:
+      image: mendhak/http-https-echo
+      hostname: app1
+      ports:
+          - "8080:80"
+          - "8443:443"
+
+  app2:
+      image: mendhak/http-https-echo
+      hostname: app2
+      ports:
+          - "8090:80"
+          - "8493:443"
