@@ -9,8 +9,8 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/conf:/etc/nginx
-      - ./nginx/certs:/etc/ssl
+      - ./reverse-proxy/conf:/etc/nginx
+      - ./reverse-proxy/certs:/etc/ssl
       # - ./app:/usr/local/nginx/html
     links: 
       - app1
@@ -22,9 +22,12 @@ services:
           - "8080:80"
           - "8443:443"
 
-  app2:
-      image: mendhak/http-https-echo
-      hostname: app2
+  myApp:
+      image: nginx
+      hostname: myApp
       ports:
           - "8090:80"
           - "8493:443"
+      volumes:
+        - ./myApp/conf/html:/etc/nginx/html
+        - ./reverse-proxy/certs:/etc/ssl
